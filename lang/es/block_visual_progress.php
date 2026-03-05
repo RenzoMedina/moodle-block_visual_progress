@@ -28,3 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Progreso Visual';
 $string['myaddinstance'] = 'Agregar un nuevo bloque de Progreso Visual a la página Mi Moodle';
 $string['addinstance'] = 'Agregar un nuevo bloque de Progreso Visual';
+$string['viewteacher'] = 'Vista para profesores';
+$string['viewteacher:message'] = 'Visible';
+$string['viewteacher:info'] = 'Valor habilitado para vista profesor';

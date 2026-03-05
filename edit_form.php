@@ -33,7 +33,10 @@ class block_visual_progress_edit_form extends block_edit_form {
         // Section header title.
         $mform->addElement('header', 'configheader', get_string('blocksettings', 'block'));
 
-        // Please keep in mind that all elements defined here must start with 'config_'.
+        // Please keep in mind that all elements defined here must start with 'config_'.    
+        $mform->addElement('advcheckbox',  'config_viewteacher',  get_string('viewteacher', 'block_visual_progress'), get_string('viewteacher:message', 'block_visual_progress'), array('group' => 1),  array(0, 1));
+        $mform->setDefault('config_viewteacher', 1);
+        $mform->addHelpButton('config_viewteacher', 'viewteacher:info', 'block_visual_progress');
 
     }
 }

@@ -55,8 +55,11 @@ class block_visual_progress extends block_base {
         if (!empty($this->config->text)) {
             $this->content->text = $this->config->text;
         } else {
-            $text = 'Please define the content text in /blocks/visual_progress/block_visual_progress.php.';
-            $this->content->text = $text;
+            global $OUTPUT;
+            $template = [
+                'percentage' => 50,
+            ];
+            $this->content->text = $OUTPUT->render_from_template('block_visual_progress/main', $template);
         }
 
         return $this->content;
