@@ -1,8 +1,17 @@
 # Visual Progress #
 
-TO-DO Describe the plugin shortly here.
+In Moodle, students do not know where they are in the course unless they manually review each activity. This block gives them immediate visibility of their progress and motivates them to continue.
 
-TO-DO Provide more detailed description here.
+## Features ##
+
+- Display the **percentage of activities completed** out of the total number of activities with completion tracking enabled.
+- Represent that percentage with a **visual progress bar**.
+- Display an **encouraging message** based on the range:
+  - 0–40% → “You're just getting started, you can do it!”
+  - 41–70% → “Good pace, keep it up!”
+  - 71–99% → “You're almost there!”
+  - 100% → “Course completed! 🎉”
+- The administrator can enable or disable **teacher view mode** from the block settings.
 
 ## Installing via uploaded ZIP file ##
 

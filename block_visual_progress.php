@@ -88,20 +88,59 @@ class block_visual_progress extends block_base {
 
             $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
             $valueinfo = '';
-            if ($percentage <= 40) {
+            if ($percentage <= 0 ) {
                 $valueinfo = get_string("progressvalueinfo", "block_visual_progress");
-            }else if ($percentage <= 70) {
+            }else if ($percentage <= 25) {
+                $valueinfo = get_string("progressvalueinfo1", "block_visual_progress");
+            }else if ($percentage <= 50) {
                 $valueinfo = get_string("progressvalueinfo2", "block_visual_progress");
-            }else if ($percentage <= 99) {
-                $valueinfo = get_string("progressvalueinfo3", "block_visual_progress");
+            }else if ($percentage <= 75) {
+                $valueinfo = get_string("progressvalueinfo3", "block_visual_progress");    
             }else {
                 $valueinfo = get_string("progressvalueinfo4", "block_visual_progress");
+            }
+            $context = \context_course::instance($COURSE->id);
+            $isteacher = has_capability('moodle/grade:viewall', $context);
+            $showteacherview = isset($this->config->viewteacher) ? !empty($this->config->viewteacher) : true;
+            if ($isteacher && $showteacherview) {
+                $students = get_enrolled_users($context, 'moodle/course:isincompletionreports');
+                $totalstudents = 0;
+                $sumpercentages = 0;
+                foreach ($students as $student) {
+                    $studentcompleted = 0;
+                    foreach ($modinfo->cms as $cm) {
+                        if ($cm->completion == COMPLETION_TRACKING_NONE) {
+                            continue;
+                        }
+                        
+                        $details = \core_completion\cm_completion_details::get_instance(
+                            $cm,
+                            $student->id,
+                            true
+                        );
+                        
+                        if ($details->is_overall_complete()) {
+                            $studentcompleted++;
+                        }
+                    }
+                    $studentpercentage = $total > 0 ? round(($studentcompleted / $total) * 100) : 0;
+                    $sumpercentages += $studentpercentage;
+                    $totalstudents++;
+                    $studentslist[] = [
+                        'name'     => fullname($student),
+                        'progress' => $studentpercentage,
+                    ];
+                }
+                $groupaverage = $totalstudents > 0 ? round($sumpercentages / $totalstudents) : 0;
             }
             $template = [
                 'progress' => true,
                 'percentage' => $percentage,
                 'message' => '',
                 'info' => $valueinfo,
+                'isteacher'      => $isteacher && $showteacherview,
+                'groupaverage'   => $groupaverage,
+                'students'       => $studentslist,
             ];
             $this->content->text = $OUTPUT->render_from_template('block_visual_progress/main', $template);
         }
@@ -134,12 +173,21 @@ class block_visual_progress extends block_base {
             "course-view" => true,
         ];
     }
+
     /**
      * Performs a self-test to check if the block is working correctly.
      *
      * @return bool True if the test passed, false otherwise.
      */
     function _self_test() {
+        return true;
+    }
+    
+    /**
+     * Summary of instance_allow_config
+     * @return bool
+     */
+    public function instance_allow_config() {
         return true;
     }
 }

@@ -20,6 +20,23 @@
 <div class="progress">
   	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%">{{percentage}}%</div>
 </div>
+{{#isteacher}}
+    <hr>
+    <p class="font-weight-bold">
+        Promedio del grupo: {{groupaverage}}%
+    </p>
+    {{#students}}
+        <div class="d-flex justify-content-between mt-2">
+            <div>{{name}}</div>
+            <div>{{progress}}%</div>
+        </div>
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" 
+                 style="width: {{progress}}%">
+            </div>
+        </div>
+    {{/students}}
+{{/isteacher}}
 {{/progress}}
 {{^progress}}
 	<p class ="text-muted">{{message}}</p>
