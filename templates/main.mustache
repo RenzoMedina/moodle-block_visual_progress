@@ -14,14 +14,14 @@
 	You should have received a copy of the GNU General Public License
 	along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 }}
-<div class="container-fluid">
+<div class="container">
 {{#progress}}
+	<p class="mb-2">{{info}}</p>
 <div class="progress">
-	<p>texto</p>
   	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%">{{percentage}}%</div>
 </div>
 {{/progress}}
 {{^progress}}
-	<p class ="text-muted">El seguimiento de actividades no está activado en este curso</p>
+	<p class ="text-muted">{{message}}</p>
 {{/progress}}
 </div>

@@ -55,9 +55,53 @@ class block_visual_progress extends block_base {
         if (!empty($this->config->text)) {
             $this->content->text = $this->config->text;
         } else {
-            global $OUTPUT;
+            global $OUTPUT, $COURSE, $USER;
+            $completion = new completion_info($COURSE);
+            if(!$completion->is_enabled()) {
+                $this->content->text = $OUTPUT->render_from_template('block_visual_progress/main', [
+                'progress' => false,
+                'message'  => get_string('completionnotenabled', 'block_visual_progress'),
+            ]);
+                return $this->content;
+            }
+            $modinfo = get_fast_modinfo($COURSE);
+            $total = 0;
+            $completed = 0;
+
+            foreach ($modinfo->cms as $cm) {
+                if ($cm->completion == COMPLETION_TRACKING_NONE) {
+                    continue;
+                }
+                
+                $total++;
+                
+                $details = \core_completion\cm_completion_details::get_instance(
+                    $cm,
+                    $USER->id,
+                    true
+                );
+                
+                if ($details->is_overall_complete()) {
+                    $completed++;
+                }
+            }
+
+            $percentage = $total > 0 ? round(($completed / $total) * 100) : 0;
+            $valueinfo = '';
+            if ($percentage <= 40) {
+                $valueinfo = get_string("progressvalueinfo", "block_visual_progress");
+            }else if ($percentage <= 70) {
+                $valueinfo = get_string("progressvalueinfo2", "block_visual_progress");
+            }else if ($percentage <= 99) {
+                $valueinfo = get_string("progressvalueinfo3", "block_visual_progress");
+            }else {
+                $valueinfo = get_string("progressvalueinfo4", "block_visual_progress");
+            }
             $template = [
-                'percentage' => 50,
+                'progress' => true,
+                'percentage' => $percentage,
+                'message' => '',
+                'info' => $valueinfo,
             ];
             $this->content->text = $OUTPUT->render_from_template('block_visual_progress/main', $template);
         }

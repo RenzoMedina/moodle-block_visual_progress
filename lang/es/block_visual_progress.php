@@ -31,3 +31,9 @@ $string['addinstance'] = 'Agregar un nuevo bloque de Progreso Visual';
 $string['viewteacher'] = 'Vista para profesores';
 $string['viewteacher:message'] = 'Visible';
 $string['viewteacher:info'] = 'Valor habilitado para vista profesor';
+$string['completionnotenabled'] = 'La finalización del curso no está habilitada para este curso.';
+$string['progressvalueinfo'] = "¡Apenas estás comenzando, puedes hacerlo!.";
+$string['progressvalueinfo2'] = "¡Buen ritmo, sigue así!.";
+$string['progressvalueinfo3'] = "¡Casi lo logras!.";
+$string['progressvalueinfo4'] = "¡Curso completado! 🎉.";
+
