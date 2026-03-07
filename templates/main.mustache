@@ -20,8 +20,8 @@
 <div class="progress">
   	<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{percentage}}" aria-valuemin="0" aria-valuemax="100" style="width: {{percentage}}%">{{percentage}}%</div>
 </div>
+{{/progress}}
 {{#isteacher}}
-    <hr>
     <p class="font-weight-bold">
         Promedio del grupo: {{groupaverage}}%
     </p>
@@ -37,7 +37,6 @@
         </div>
     {{/students}}
 {{/isteacher}}
-{{/progress}}
 {{^progress}}
 	<p class ="text-muted">{{message}}</p>
 {{/progress}}

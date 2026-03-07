@@ -102,6 +102,8 @@ class block_visual_progress extends block_base {
             $context = \context_course::instance($COURSE->id);
             $isteacher = has_capability('moodle/grade:viewall', $context);
             $showteacherview = isset($this->config->viewteacher) ? !empty($this->config->viewteacher) : true;
+            $studentslist = [];
+            $groupaverage = 0;
             if ($isteacher && $showteacherview) {
                 $students = get_enrolled_users($context, 'moodle/course:isincompletionreports');
                 $totalstudents = 0;
@@ -134,7 +136,7 @@ class block_visual_progress extends block_base {
                 $groupaverage = $totalstudents > 0 ? round($sumpercentages / $totalstudents) : 0;
             }
             $template = [
-                'progress' => true,
+                'progress' => !($isteacher && $showteacherview),
                 'percentage' => $percentage,
                 'message' => '',
                 'info' => $valueinfo,
